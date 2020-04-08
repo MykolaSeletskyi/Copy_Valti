@@ -32,7 +32,7 @@ int main() {
 		{
 			dates temp = { 0,0,0,0,0 };
 			int count_lines = 10;
-			for (int i = 0; i < 15; i++)//15 кількість виводу транзакцій
+			for (int i = actionsCount-1; i >= 0; i--)
 			{
 				if (temp.year != actions[i].date.year && temp.mon != actions[i].date.mon && temp.day != actions[i].date.day)
 				{
@@ -50,7 +50,7 @@ int main() {
 				cout << actions[i].date.min << ' ';
 				cout << actions[i].category << " " << actions[i].sum << "$";
 				count_lines++;
-				if (actionsCount <= i + 1)
+				if (i == 15)//15 кількість виводу транзакцій
 				{
 					break;
 				}

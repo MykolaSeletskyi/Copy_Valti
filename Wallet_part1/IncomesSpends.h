@@ -39,6 +39,5 @@ void gotoxy(int x, int y);
 void adding(transaction*& actions, string* categories,int countCategories, int&actionsCount);
 void changingSize(bool addDelete,transaction*& actions, int& actionsCount,int indexDel);
 void showActions(bool mode, transaction*& actions, int& actionsCount);
-void deleting(transaction*& actions, int& actionsCount);
-void redact(transaction *& actions, int & actionsCount, categor *categories, int countCategories);
+void redact(transaction *& actions, int & actionsCount, string* categories, int countCategories, int index);
 string adding_category(string* categories,int countCategories);

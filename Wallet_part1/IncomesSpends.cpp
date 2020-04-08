@@ -140,22 +140,7 @@ void showActions(bool mode, transaction*& actions, int& actionsCount)
 	}
 }
 
-void deleting(transaction*& actions, int& actionsCount)
-{
-	int bufer = 0;
-
-	showActions(1, actions, actionsCount);
-	cout << "Enter number of action: ";
-	do {
-		cin >> bufer;
-		if (bufer <= 0 || bufer > actionsCount)cout << "Wrong choise!" << endl;
-	} while (bufer <= 0 || bufer > actionsCount);
-
-	changingSize(0, actions, actionsCount, bufer - 1);
-}
-
-
-void redact(transaction*& actions, int& actionsCount, categor* categories, int countCategories, int index)
+void redact(transaction*& actions, int& actionsCount, string* categories, int countCategories, int index)
 {
 	int bufer = 0;
 	do {
@@ -178,8 +163,7 @@ void redact(transaction*& actions, int& actionsCount, categor* categories, int c
 		case 2: {
 			gotoxy(3, 1);
 			system("cls");
-			if (actions[index].incomeSpend)actions[index].category = choising_category(categories->incomeCategories, countCategories);
-			else actions[index].category = choising_category(categories->spendCategories, countCategories);
+			actions[index].category = choising_category(categories, countCategories);
 			break;
 		}
 		case 3: {
@@ -197,3 +181,6 @@ void redact(transaction*& actions, int& actionsCount, categor* categories, int c
 	} while (bufer);
 	system("cls");
 }
+
+
+

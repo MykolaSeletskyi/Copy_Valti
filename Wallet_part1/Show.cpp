@@ -1,5 +1,4 @@
 ﻿#include "Show.h"
-
 void hotkeys() {
 	SetConsoleTextAttribute(handle, hotkeys_color);
 	gotoxy(hotkeys_x, 0);
@@ -28,7 +27,7 @@ void action_manager(transaction*& actions, int& actionsCount, string* categories
 		cout << actions[index].date.min << ' ';
 		cout << actions[index].details << " " << actions[index].category << " " << actions[index].sum << "$";
 		gotoxy(0, count_lines++);
-		if (selected_option == -1) {
+		if (selected_option == 0) {
 			SetConsoleTextAttribute(handle, selected_color);
 			cout << "Redact" << endl;
 			SetConsoleTextAttribute(handle, font_color);
@@ -44,13 +43,13 @@ void action_manager(transaction*& actions, int& actionsCount, string* categories
 		switch (_getch())
 		{
 		case 72://(стрілка в верх)
-			if (selected_option >= 0)
+			if (selected_option > 0)
 			{
 				selected_option--;
 			}
 			break;
 		case 80://(стрілка в низ)
-			if (selected_option < actionsCount - 1)
+			if (selected_option < actionsCount)
 			{
 				selected_option++;
 			}
@@ -58,24 +57,28 @@ void action_manager(transaction*& actions, int& actionsCount, string* categories
 		case 13://(Enter)
 			if (selected_option == 0)
 			{
-			//		redact(actions, actionsCount, &Categories, countCategories);
+					redact(actions, actionsCount, categories, countCategories, index);
 			}
 			else
 			{
-				//		deleting(actions, actionsCount);
+						changingSize(0, actions, actionsCount, selected_option - 1);
 			}
+		case 27://(Esc) exit
+			return;
+			break;
 		}
 	}
 }
 
 void menu_income_and_Spend(transaction*& actions, int& actionsCount, string* categories, int countCategories, bool income_Spend)
 {
-	int selected_option = -1;
+		int selected_option = actionsCount;
 	for (;;)
 	{
+		hotkeys();
 		int count_lines = 10;
 		gotoxy(0, count_lines++);
-		if (selected_option == -1) {
+		if (selected_option == actionsCount) {
 			SetConsoleTextAttribute(handle, selected_color);
 			cout << "Add transaction";
 			SetConsoleTextAttribute(handle, font_color);
@@ -85,7 +88,7 @@ void menu_income_and_Spend(transaction*& actions, int& actionsCount, string* cat
 			cout << "Add transaction";
 		}
 		dates temp = { 0,0,0,0,0 };
-		for (int i = 0; i < actionsCount; i++)
+		for (int i = actionsCount-1; i >= 0; i--)
 		{
 			if (actions[i].incomeSpend==income_Spend)
 			{
@@ -120,20 +123,41 @@ void menu_income_and_Spend(transaction*& actions, int& actionsCount, string* cat
 		switch (_getch())
 		{
 		case 72://(стрілка в верх)
-			if (selected_option >= 0)
+	
+			if (selected_option < actionsCount)
 			{
-				selected_option--;
+					for (int i = selected_option; i < actionsCount; i++)
+					{
+						if (i+1 == actionsCount)
+						{
+							selected_option = i + 1;
+							break;
+						}
+						if (actions[i+1].incomeSpend == income_Spend)
+						{
+							selected_option = i+1;
+							break;
+						}
+					}
 			}
 			break;
 		case 80://(стрілка в низ)
-			if (selected_option < actionsCount - 1)
+
+			if (selected_option > 0)
 			{
-				selected_option++;
+				for (int i = selected_option; i > 0; i--)
+				{
+					if (actions[i-1].incomeSpend == income_Spend)
+					{
+						selected_option = i-1;
+						break;
+					}
+				}
 			}
 			break;
 		case 13://(Enter)
 			system("cls");
-			if (selected_option==-1)
+			if (selected_option== actionsCount)
 			{
 				adding(actions, categories, countCategories, actionsCount);
 				actions[actionsCount - 1].incomeSpend = income_Spend;
@@ -142,6 +166,7 @@ void menu_income_and_Spend(transaction*& actions, int& actionsCount, string* cat
 			{
 				action_manager(*&actions, actionsCount, categories, countCategories, selected_option);
 			}
+			selected_option = actionsCount;
 			break;
 		case 27://(Esc) exit
 			return;
@@ -149,6 +174,5 @@ void menu_income_and_Spend(transaction*& actions, int& actionsCount, string* cat
 
 		}
 		system("cls");
-		hotkeys();
 	}
 }
