@@ -155,48 +155,41 @@ void deleting(transaction*& actions, int& actionsCount)
 }
 
 
-void redact(transaction*& actions, int& actionsCount, categor* categories, int countCategories)
+void redact(transaction*& actions, int& actionsCount, categor* categories, int countCategories, int index)
 {
-	int choise = 0, bufer = 0;
-	showActions(1, actions, actionsCount);
-	cout << "Enter number of action: ";
-	do {
-		cin >> choise;
-		if (choise <= 0 || choise > actionsCount)cout << "Wrong choise!" << endl;
-	} while (choise <= 0 || choise > actionsCount);
-	choise--;
+	int bufer = 0;
 	do {
 		system("cls");
 
 
-		cout << "1. " << actions[choise].sum << endl << "2. " << actions[choise].category << endl << "3. " << actions[choise].details;
-		actions[choise].incomeSpend ? cout << "\n4. " << "Income\t\t\t(0-exit)\n" : cout << "\n4. " << "Spend\t\t\t(0-exit)\n";
+		cout << "1. " << actions[index].sum << endl << "2. " << actions[index].category << endl << "3. " << actions[index].details;
+		actions[index].incomeSpend ? cout << "\n4. " << "Income\t\t\t(0-exit)\n" : cout << "\n4. " << "Spend\t\t\t(0-exit)\n";
 		cout << "Punkt: ";
 		cin >> bufer;
 		switch (bufer) {
 		case 1: {
 			gotoxy(3, 0);
 			do {
-				if (actions[choise].sum <= 0)cout << "Wrong sum! Write the sum bigger than zero: ";
-				cin >> actions[choise].sum;
-			} while (actions[choise].sum <= 0);
+				if (actions[index].sum <= 0)cout << "Wrong sum! Write the sum bigger than zero: ";
+				cin >> actions[index].sum;
+			} while (actions[index].sum <= 0);
 			break;
 		}
 		case 2: {
 			gotoxy(3, 1);
 			system("cls");
-			if (actions[choise].incomeSpend)actions[choise].category = choising_category(categories->incomeCategories, countCategories);
-			else actions[choise].category = choising_category(categories->spendCategories, countCategories);
+			if (actions[index].incomeSpend)actions[index].category = choising_category(categories->incomeCategories, countCategories);
+			else actions[index].category = choising_category(categories->spendCategories, countCategories);
 			break;
 		}
 		case 3: {
 			gotoxy(3, 2);
-			cin.ignore();//добавив цей рядок бо не працювало
-			getline(cin, actions[choise].details);
+			cin.ignore();
+			getline(cin, actions[index].details);
 			break;
 		}
 		case 4: {
-			actions[choise].incomeSpend = !actions[choise].incomeSpend;
+			actions[index].incomeSpend = !actions[index].incomeSpend;
 			break;
 		}
 		}

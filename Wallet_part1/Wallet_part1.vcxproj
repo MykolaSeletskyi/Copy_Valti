@@ -124,10 +124,12 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClCompile Include="IncomesSpends.cpp" />
+    <ClCompile Include="Show.cpp" />
     <ClCompile Include="Wallet_menu.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="IncomesSpends.h" />
+    <ClInclude Include="Show.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

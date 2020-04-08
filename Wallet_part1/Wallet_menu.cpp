@@ -3,6 +3,7 @@
 #include<fstream>
 #include "IncomesSpends.h"
 #include <conio.h>
+#include "Show.h"
 using namespace std;
 
 
@@ -12,22 +13,6 @@ int actionsCount = 0;
 transaction* actions = new transaction[actionsCount];
 categor Categories;
 
-HANDLE handle = GetStdHandle(STD_OUTPUT_HANDLE);
-int font_color = 15;// колір шрифту
-int dates_color = 112;// колір дати
-void hotkeys() {
-	HANDLE handle = GetStdHandle(STD_OUTPUT_HANDLE);
-	SetConsoleTextAttribute(handle, 8);//закинути в файл SHOW як гарячі калавіши
-	gotoxy(100, 0);
-	cout << "(ENTER) select";
-	gotoxy(100, 1);
-	cout << "(▲) UP";
-	gotoxy(100, 2);
-	cout << "(▼) DOWN";
-	gotoxy(100, 3);
-	cout << "(ESC) EXIT";
-	SetConsoleTextAttribute(handle, font_color);
-}
 int main() {
 
 	Categories.incomeCategories[0] = "Other";
@@ -63,7 +48,7 @@ int main() {
 				cout << actions[i].date.hour << ':';
 				cout << (actions[i].date.min < 10 ? "0" : "");
 				cout << actions[i].date.min << ' ';
-				cout << actions[i].details << " " << actions[i].category << " " << actions[i].sum << "$";
+				cout << actions[i].category << " " << actions[i].sum << "$";
 				count_lines++;
 				if (actionsCount <= i + 1)
 				{
@@ -78,7 +63,7 @@ int main() {
 			gotoxy(60, i);
 			if (selected_option == i)
 			{
-				SetConsoleTextAttribute(handle, 16);
+				SetConsoleTextAttribute(handle, selected_color);
 				cout << menu_items[i];
 				SetConsoleTextAttribute(handle, font_color);
 			}
@@ -107,12 +92,15 @@ int main() {
 					switch (selected_option)
 					{
 					case 0://доходи					
-						adding(actions, Categories.incomeCategories, countCategories, actionsCount);
-						actions[actionsCount - 1].incomeSpend = 1;
+						menu_income_and_Spend(*&actions, actionsCount, Categories.incomeCategories, countCategories,1);
+
 						break;
 					case 1://расходи
-						adding(actions, Categories.spendCategories, countCategories, actionsCount);
-						actions[actionsCount - 1].incomeSpend = 0;
+						menu_income_and_Spend(*&actions, actionsCount, Categories.spendCategories, countCategories,0);
+						//adding(actions, Categories.incomeCategories, countCategories, actionsCount);
+						//actions[actionsCount - 1].incomeSpend = 1;
+						//adding(actions, Categories.spendCategories, countCategories, actionsCount);
+						//actions[actionsCount - 1].incomeSpend = 0;
 						break;
 					case 2://настройки
 						////настойок нема

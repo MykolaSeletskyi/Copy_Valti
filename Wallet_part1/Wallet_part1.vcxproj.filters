@@ -21,9 +21,15 @@
     <ClCompile Include="IncomesSpends.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="Show.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="IncomesSpends.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Show.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>
