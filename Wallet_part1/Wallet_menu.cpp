@@ -4,21 +4,27 @@
 #include "IncomesSpends.h"
 #include <conio.h>
 #include "Show.h"
+#include <cmath>
 using namespace std;
-
-
-int actionsCount = 0;
-
-
-transaction* actions = new transaction[actionsCount];
-categor Categories;
-
 int main() {
+	int actionsCount = 0;
 
-	Categories.incomeCategories[0] = "Other";
-	Categories.incomeCategories[1] = "Premia";
-	Categories.spendCategories[0] = "Food";
-	Categories.spendCategories[1] = "Other";
+	transaction* actions = new transaction[actionsCount];
+
+
+	categor Categories;
+	curency Curency[20];
+	Curency[0].name = "dol";
+	Curency[0].course = 1;
+
+	Categories.incomeCategories[0].name = "Other";
+	Categories.incomeCategories[1].name = "Premia";
+	Categories.spendCategories[0].name = "Food";
+	Categories.spendCategories[1].name = "Other";
+
+	curency mainCurency = Curency[0];
+
+
 
 	hotkeys();
 
@@ -26,13 +32,11 @@ int main() {
 	int selected_option = 0;
 	for (;;)
 	{
-
-		//39-61  виводимо остані транзакції
 		if (actionsCount)
 		{
 			dates temp = { 0,0,0,0,0 };
-			int count_lines = 10;
-			for (int i = actionsCount-1; i >= 0; i--)
+			int count_lines = transaction_x;
+			for (int i = actionsCount - 1; i >= 0; i--)
 			{
 				if (temp.year != actions[i].date.year && temp.mon != actions[i].date.mon && temp.day != actions[i].date.day)
 				{
@@ -48,9 +52,9 @@ int main() {
 				cout << actions[i].date.hour << ':';
 				cout << (actions[i].date.min < 10 ? "0" : "");
 				cout << actions[i].date.min << ' ';
-				cout << actions[i].category << " " << actions[i].sum << "$";
+				cout << actions[i].category << " " << floor(actions[i].sum * mainCurency.course * 100) / 100 << " " << mainCurency.name;
 				count_lines++;
-				if (i == 15)//15 кількість виводу транзакцій
+				if (i == 15)
 				{
 					break;
 				}
@@ -60,7 +64,7 @@ int main() {
 
 		for (int i = 0; i < size(menu_items); i++)
 		{
-			gotoxy(60, i);
+			gotoxy(menu_x, i);
 			if (selected_option == i)
 			{
 				SetConsoleTextAttribute(handle, selected_color);
@@ -75,13 +79,13 @@ int main() {
 		gotoxy(0, 0);
 		switch (_getch())
 		{
-		case 72://(стрілка в верх)
+		case 72://up
 			if (selected_option > 0)
 			{
 				selected_option--;
 			}
 			break;
-		case 80://(стрілка в низ)
+		case 80://down
 			if (selected_option < size(menu_items) - 1)
 			{
 				selected_option++;
@@ -89,38 +93,73 @@ int main() {
 			break;
 		case 13://(Enter)
 			system("cls");
-					switch (selected_option)
-					{
-					case 0://доходи					
-						menu_income_and_Spend(*&actions, actionsCount, Categories.incomeCategories, countCategories,1);
+			switch (selected_option)
+			{
+			case 0:			
+				menu_income_and_Spend(*&actions, actionsCount, Categories.incomeCategories, 1, mainCurency);
 
-						break;
-					case 1://расходи
-						menu_income_and_Spend(*&actions, actionsCount, Categories.spendCategories, countCategories,0);
-						//adding(actions, Categories.incomeCategories, countCategories, actionsCount);
-						//actions[actionsCount - 1].incomeSpend = 1;
-						//adding(actions, Categories.spendCategories, countCategories, actionsCount);
-						//actions[actionsCount - 1].incomeSpend = 0;
-						break;
-					case 2://настройки
-						////настойок нема
+				break;
+			case 1:
+				menu_income_and_Spend(*&actions, actionsCount, Categories.spendCategories, 0, mainCurency);
+				break;
+			case 2: {
+				char choise = 0;
+				int index = 0;
+				do {
+					system("cls");
+					transactionsByTime(actions, actionsCount, mainCurency);
+					cout << "1. Delete cat\t\t\t\t(esc) exit\n2. Course\n";
+					choise = _getch();
+					switch (choise) {
+					case 49: {
+						cout << "1-Incomes categories 0-Spends categories: ";
+						cin >> index;
+						if (index) {
+							for (int i = 0; i < countCategories; i++) {
+								if (Categories.incomeCategories[i].name != "")cout << "# " << i + 1 << " " << Categories.incomeCategories[i].name << endl;
+							}
+							do {
+								cout << "Enter number of action: ";
+								cin >> index;
+								if (index <= 0 || index > countCategories)cout << "Wrong choise!" << endl;
+							} while (index <= 0 || index > countCategories);
+							deletingCategory(Categories.incomeCategories, countCategories, index - 1);
+						}
+						else {
+							for (int i = 0; i < countCategories; i++) {
+								if (Categories.spendCategories[i].name != "")cout << "# " << i + 1 << Categories.spendCategories[i].name << endl;
+							}
+							do {
+								cout << "Enter number of action: ";
+								cin >> index;
+								if (index <= 0 || index > countCategories)cout << "Wrong choise!" << endl;
+							} while (index <= 0 || index > countCategories);
+							deletingCategory(Categories.spendCategories, countCategories, index - 1);
+						}
 						break;
 					}
+					case 50: {
+						curencyManager(Curency, mainCurency);
+						break;
+					}
+
+					}
+					cout << "\n\n";
+				} while (choise != 27);
+				choise = 0;
 				system("cls");
-				hotkeys();
+			}
+				  break;
+			}
+			system("cls");
+			hotkeys();
 			break;
 		case 27://(Esc) exit
 			return 0;
 			break;
 		}
-
-		//		deleting(actions, actionsCount);
-
-		//		redact(actions, actionsCount, &Categories, countCategories);
-
-
-
 	}
+
 	system("pause");
 	return 0;
 }
