@@ -1,0 +1,4 @@
+﻿  Wallet_menu.cpp
+c:\users\second\source\repos\wallet_part1\wallet_part1\wallet_menu.cpp(98): warning C4018: '<': signed/unsigned mismatch
+c:\users\second\source\repos\wallet_part1\wallet_part1\wallet_menu.cpp(122): warning C4018: '<': signed/unsigned mismatch
+  Wallet_part1.vcxproj -> C:\Users\second\source\repos\Wallet_part1\Debug\Wallet_part1.exe
