@@ -1,18 +1,1 @@
-﻿  Show.cpp
-C:\Users\Selet\Source\Repos\MykolaSeletskyi\Copy_Valti\Wallet_part1\Wallet_part1\Show.cpp(8,10): warning C4566: character represented by universal-character-name '\u25B2' cannot be represented in the current code page (1252)
-C:\Users\Selet\Source\Repos\MykolaSeletskyi\Copy_Valti\Wallet_part1\Wallet_part1\Show.cpp(10,10): warning C4566: character represented by universal-character-name '\u25BC' cannot be represented in the current code page (1252)
-C:\Users\Selet\Source\Repos\MykolaSeletskyi\Copy_Valti\Wallet_part1\Wallet_part1\Show.cpp(83,17): warning C4244: 'initializing': conversion from 'double' to 'int', possible loss of data
-C:\Users\Selet\Source\Repos\MykolaSeletskyi\Copy_Valti\Wallet_part1\Wallet_part1\Show.cpp(88,32): warning C4244: '+=': conversion from 'double' to 'float', possible loss of data
-C:\Users\Selet\Source\Repos\MykolaSeletskyi\Copy_Valti\Wallet_part1\Wallet_part1\Show.cpp(92,32): warning C4838: conversion from 'int' to 'SHORT' requires a narrowing conversion
-C:\Users\Selet\Source\Repos\MykolaSeletskyi\Copy_Valti\Wallet_part1\Wallet_part1\Show.cpp(92,63): warning C4838: conversion from 'int' to 'SHORT' requires a narrowing conversion
-C:\Users\Selet\Source\Repos\MykolaSeletskyi\Copy_Valti\Wallet_part1\Wallet_part1\Show.cpp(93,35): warning C4838: conversion from 'int' to 'SHORT' requires a narrowing conversion
-C:\Users\Selet\Source\Repos\MykolaSeletskyi\Copy_Valti\Wallet_part1\Wallet_part1\Show.cpp(93,56): warning C4838: conversion from 'int' to 'SHORT' requires a narrowing conversion
-C:\Users\Selet\Source\Repos\MykolaSeletskyi\Copy_Valti\Wallet_part1\Wallet_part1\Show.cpp(104,146): warning C4267: 'argument': conversion from 'size_t' to 'int', possible loss of data
-C:\Users\Selet\Source\Repos\MykolaSeletskyi\Copy_Valti\Wallet_part1\Wallet_part1\Show.cpp(105,48): warning C4244: '+=': conversion from 'double' to 'int', possible loss of data
-C:\Users\Selet\Source\Repos\MykolaSeletskyi\Copy_Valti\Wallet_part1\Wallet_part1\Show.cpp(107,32): warning C4838: conversion from 'double' to 'SHORT' requires a narrowing conversion
-C:\Users\Selet\Source\Repos\MykolaSeletskyi\Copy_Valti\Wallet_part1\Wallet_part1\Show.cpp(107,32): warning C4244: 'initializing': conversion from 'double' to 'SHORT', possible loss of data
-C:\Users\Selet\Source\Repos\MykolaSeletskyi\Copy_Valti\Wallet_part1\Wallet_part1\Show.cpp(107,58): warning C4838: conversion from 'double' to 'SHORT' requires a narrowing conversion
-C:\Users\Selet\Source\Repos\MykolaSeletskyi\Copy_Valti\Wallet_part1\Wallet_part1\Show.cpp(107,58): warning C4244: 'initializing': conversion from 'double' to 'SHORT', possible loss of data
-C:\Users\Selet\Source\Repos\MykolaSeletskyi\Copy_Valti\Wallet_part1\Wallet_part1\Show.cpp(248,61): warning C4267: 'argument': conversion from 'size_t' to 'int', possible loss of data
-C:\Users\Selet\Source\Repos\MykolaSeletskyi\Copy_Valti\Wallet_part1\Wallet_part1\Show.cpp(249,74): warning C4267: 'argument': conversion from 'size_t' to 'int', possible loss of data
-  Wallet_part1.vcxproj -> C:\Users\Selet\Source\Repos\MykolaSeletskyi\Copy_Valti\Wallet_part1\x64\Debug\Wallet_part1.exe
+﻿  Wallet_part1.vcxproj -> C:\Users\Selet\Source\Repos\MykolaSeletskyi\Copy_Valti\Wallet_part1\x64\Debug\Wallet_part1.exe

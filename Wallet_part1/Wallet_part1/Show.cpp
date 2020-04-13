@@ -7,16 +7,16 @@ void hotkeys() {
 	gotoxy(hotkeys_x, 1);
 	cout << "(▲) UP";
 	gotoxy(hotkeys_x, 2);
-	cout << "(▼) DOWN";
+	cout << "(▼) DOWN";  
 	gotoxy(hotkeys_x, 3);
 	cout << "(ESC) EXIT";
 	gotoxy(0, 0);
 	SetConsoleTextAttribute(handle, font_color);
 }
 
-void action_manager(transaction*& actions, int& actionsCount, sumAndCat* categories, int index, curency& mainCurency)
+void action_manager(transaction*& actions, int& actionsCount, sumAndCat* categories, int index, curency& mainCurency)  
 {
-	int selected_option = 0;
+	BOOL selected_option = true;
 	for (;;)
 	{
 		int count_lines = 5;
@@ -29,7 +29,7 @@ void action_manager(transaction*& actions, int& actionsCount, sumAndCat* categor
 		cout << actions[index].category << " " << floor(actions[index].sum * mainCurency.course * 100) / 100 << " " << mainCurency.name << "\n";
 		cout << actions[index].details << "\n";
 		gotoxy(0, count_lines++);
-		if (selected_option == 0) {
+		if (selected_option) {
 			SetConsoleTextAttribute(handle, selected_color);
 			cout << "Redact" << endl;
 			SetConsoleTextAttribute(handle, font_color);
@@ -44,20 +44,14 @@ void action_manager(transaction*& actions, int& actionsCount, sumAndCat* categor
 		}
 		switch (_getch())
 		{
-		case 72://(стрілка в верх)
-			if (selected_option > 0)
-			{
-				selected_option--;
-			}
+		case 72:
+			selected_option = true;
 			break;
-		case 80://(стрілка в низ)
-			if (selected_option < actionsCount)
-			{
-				selected_option++;
-			}
+		case 80:
+			selected_option = false;
 			break;
 		case 13://(Enter)
-			if (selected_option == 0)
+			if (selected_option)
 			{
 				redact(actions, actionsCount, categories, countCategories, index, mainCurency);
 			}
