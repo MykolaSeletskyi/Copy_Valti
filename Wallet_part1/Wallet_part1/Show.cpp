@@ -10,7 +10,10 @@ void hotkeys() {
 	cout << "(▼) DOWN";  
 	gotoxy(hotkeys_x, 3);
 	cout << "(ESC) EXIT";
-	gotoxy(0, 0);
+	gotoxy(hotkeys_x, 5);
+	cout << "(F1) Open calculator";
+	gotoxy(hotkeys_x, 6);
+	cout << "(F11) Callendary";
 	SetConsoleTextAttribute(handle, font_color);
 }
 
@@ -26,7 +29,7 @@ void action_manager(transaction*& actions, int& actionsCount, sumAndCat* categor
 		cout << actions[index].date.hour << ':';
 		cout << (actions[index].date.min < 10 ? "0" : "");
 		cout << actions[index].date.min << ' ';
-		cout << actions[index].category << " " << floor(actions[index].sum * mainCurency.course * 100) / 100 << " " << mainCurency.name << "\n";
+		cout << actions[index].category << " " << double_to_string(actions[index].sum, mainCurency) << " " << mainCurency.name << "\n";
 		cout << actions[index].details << "\n";
 		gotoxy(0, count_lines++);
 		if (selected_option) {
@@ -65,6 +68,13 @@ void action_manager(transaction*& actions, int& actionsCount, sumAndCat* categor
 				}
 				changingSize(0, actions, actionsCount, index);
 			}
+		case 133: 
+			CalendMenu();
+			break;
+
+		case 59:
+			system("start calc");
+			break;
 		case 27://(Esc) exit
 			return;
 			break;
@@ -78,7 +88,7 @@ void diagram_categories(transaction*& actions, int& actionsCount, sumAndCat* cat
 	float temp_sum = 0;
 	for (int i = 0; i < countCategories; i++)
 	{
-		if (categories[i].sum == 0)break;
+		if (categories[i].name == "")break;
 		temp_sum += categories[i].sum;
 	}
 	temp_sum = 360 / temp_sum;
@@ -91,6 +101,7 @@ void diagram_categories(transaction*& actions, int& actionsCount, sumAndCat* cat
 	SetTextColor(hdc, RGB(255, 255, 255));
 	for (int i = 0; i < countCategories; i++)
 	{
+		if (categories[i].name=="")break;
 		if (categories[i].sum)
 		{
 			SelectObject(hdc, CreateSolidBrush(color[i]));
@@ -105,7 +116,7 @@ void diagram_categories(transaction*& actions, int& actionsCount, sumAndCat* cat
 		}
 	}
 }
-void menu_income_and_Spend(transaction*& actions, int& actionsCount, sumAndCat* categories, bool income_Spend, curency& mainCurency)
+void menu_income_and_Spend(transaction*& actions, int& actionsCount, sumAndCat* categories, bool income_Spend, curency& mainCurency, double* sum_income, double* sum_spend)
 {
 
 	COORD coord_diagram = { 300,70 };
@@ -130,7 +141,7 @@ void menu_income_and_Spend(transaction*& actions, int& actionsCount, sumAndCat* 
 		{
 			if (actions[i].incomeSpend == income_Spend)
 			{
-				if (temp.year != actions[i].date.year || temp.mon != actions[i].date.mon || temp.day != actions[i].date.day)  
+				if (temp.year != actions[i].date.year || temp.mon != actions[i].date.mon || temp.day != actions[i].date.day)
 				{
 					SetConsoleTextAttribute(handle, dates_color);
 					temp = actions[i].date;
@@ -151,7 +162,7 @@ void menu_income_and_Spend(transaction*& actions, int& actionsCount, sumAndCat* 
 				cout << actions[i].date.hour << ':';
 				cout << (actions[i].date.min < 10 ? "0" : "");
 				cout << actions[i].date.min << ' ';
-				cout << actions[i].category << " " << floor((actions[i].sum * mainCurency.course) * 100) / 100 << " " << mainCurency.name;
+				cout << actions[i].category << " " << double_to_string(actions[i].sum, mainCurency) << " " << mainCurency.name;
 			}
 		}
 		SetConsoleTextAttribute(handle, font_color);
@@ -190,16 +201,27 @@ void menu_income_and_Spend(transaction*& actions, int& actionsCount, sumAndCat* 
 				}
 			}
 			break;
+		case 59:
+			system("start calc");
+			break;
 		case 13://(Enter)
-			for (int i = 0; i < 40; i++) {
-				for (int j = 0; j < 20; j++)cout << "\t";
-			}
+			//for (int i = 0; i < 40; i++) {
+			//	for (int j = 0; j < 20; j++)cout << "\t";
+			//}
 			system("cls");
-			
+
 			if (selected_option == actionsCount)
 			{
 				adding(actions, categories, countCategories, actionsCount, mainCurency);
 				actions[actionsCount - 1].incomeSpend = income_Spend;
+				if (income_Spend)
+				{
+					*sum_income += actions[actionsCount - 1].sum;
+				}
+				else
+				{
+					*sum_spend += actions[actionsCount - 1].sum;
+				}
 			}
 			else
 			{
@@ -210,7 +232,7 @@ void menu_income_and_Spend(transaction*& actions, int& actionsCount, sumAndCat* 
 			hotkeys();
 			break;
 		case 27://(Esc) exit
-			
+
 
 			system("cls");
 			return;
@@ -218,10 +240,6 @@ void menu_income_and_Spend(transaction*& actions, int& actionsCount, sumAndCat* 
 		}
 	}
 }
-//int color_1[4] = { 15394047,13614070,11636723,9593329 };
-//int color_2[4] = { 16442802 ,16307328 ,16172110 ,15971623 };
-//show_transactionsByTime({ 30, 30 }, str, nymber, color_1);
-//show_transactionsByTime({ 30, 120 }, str, nymber, color_2);
 void show_transactionsByTime(COORD a, string* str, string* numbers, int* color) {
 	SetTextColor(hdc, RGB(0, 0, 0));
 	SetTextAlign(hdc, TA_CENTER);
@@ -244,7 +262,7 @@ void show_transactionsByTime(COORD a, string* str, string* numbers, int* color) 
 		SelectObject(hdc, CreateSolidBrush(RGB(0, 0, 0)));
 	}
 }
-void transactionsByTime(transaction actions[], int & actionsCount, curency &mainCurency)
+void transactionsByTime(transaction actions[], int& actionsCount, curency& mainCurency)
 {
 	Sleep(50);
 	SYSTEMTIME stime;
@@ -257,28 +275,28 @@ void transactionsByTime(transaction actions[], int & actionsCount, curency &main
 	FileTimeToSystemTime(&ltime, &stime);
 	double income[4] = { 0 };
 	double spend[4] = { 0 };
-	int i = actionsCount-1;
+	int i = actionsCount - 1;
 
 	while (actions[i].date.day == stime.wDay) {
-		if (i <0)break;
+		if (i < 0)break;
 		actions[i].incomeSpend ? income[0] += actions[i].sum : spend[0] += actions[i].sum;
 		i--;
 	}
 
-	while (actions[i].date.day >= stime.wDay - (stime.wDayOfWeek==0?7:stime.wDayOfWeek)) { // неділя == 0, тому треба переводити, інакше не порахує
-		if (i<0)break;																		// транзакції за неділю
+	while (actions[i].date.day >= stime.wDay - (stime.wDayOfWeek == 0 ? 7 : stime.wDayOfWeek)) { // неділя == 0, тому треба переводити, інакше не порахує
+		if (i < 0)break;																		// транзакції за неділю
 		actions[i].incomeSpend ? income[1] += actions[i].sum : spend[1] += actions[i].sum;
 		i--;
 	}
 
 	while (actions[i].date.mon == stime.wMonth) {
-		if (i <0)break;
+		if (i < 0)break;
 		actions[i].incomeSpend ? income[2] += actions[i].sum : spend[2] += actions[i].sum;
 		i--;
 	}
 
 	while (actions[i].date.year == stime.wYear) {
-		if (i <0)break;
+		if (i < 0)break;
 		actions[i].incomeSpend ? income[3] += actions[i].sum : spend[3] += actions[i].sum;
 		i--;
 	}
@@ -291,11 +309,105 @@ void transactionsByTime(transaction actions[], int & actionsCount, curency &main
 	string spend_str[4];
 	int color_income[4] = { 6091105, 2944305, 1233175, 958739 };
 	int color_spend[4] = { 9076469, 6180338, 3218670, 2035653 };
-	for (size_t i = 0; i < 4; i++)
+	for (int i = 0; i < 4; i++)
 	{
-		income_str[i] = to_string(floor(income[i] * mainCurency.course * 100) / 100);
-		spend_str[i] = to_string(floor(spend[i] * mainCurency.course * 100) / 100);
+		income_str[i] = double_to_string(income[i], mainCurency);
+		spend_str[i] = double_to_string(spend[i], mainCurency);
+ 	}
+	show_transactionsByTime({ 250, 90 }, str, income_str, color_income);
+	show_transactionsByTime({ 250, 190 }, str, spend_str, color_spend);
+}
+
+void show_balance(COORD coord_zero, double sum_income, double sum_spend, curency& mainCurency)
+{
+	int ratio;
+	ratio = (float(sum_income) > float(sum_spend) ? 0 : (float(sum_income) < float(sum_spend) ? 1 : 2));
+	string name_file;
+	if (ratio != 2)
+	{
+		name_file = "weigh.txt";
 	}
-   show_transactionsByTime({ 250, 90 }, str, income_str, color_income);
-   show_transactionsByTime({ 250, 190 }, str, spend_str, color_spend);
+	else
+	{
+		name_file = "weigh_equal.txt";
+	}
+	ifstream fin(name_file);
+	if (!fin.is_open()) {
+		cout << "Error: File not opend!" << " (" << name_file << ")" << endl;
+		system("pause");
+		system("cls");
+		return;
+	}
+	int count_x = 0;
+	int count_y = 0;
+	string str_temp;
+	fin >> str_temp;
+	int size_str = str_temp.size() + 1;
+	while (!fin.eof())
+	{
+		if (fin.get() == '0')
+		{
+			SetPixel(hdc, count_x + coord_zero.X, count_y + coord_zero.Y, (count_y > 124 ? RGB(0, 0, 192) : RGB(128, 128, 128)));
+		}
+		if (ratio == 0)
+		{
+			if (count_x == 0)
+			{
+				count_x = size_str;
+				count_y++;
+			}
+			count_x--;
+		}
+		if (ratio == 1 || ratio == 2)
+		{
+			if (count_x == size_str)
+			{
+				count_x = 0;
+				count_y++;
+			}
+			count_x++;
+		}
+	}
+	COORD coord[2][3] = { {{25, 67},{25, 44},{25, 56}}, {{117, 45},{117, 66},{120, 56}} };
+	SetTextAlign(hdc, TA_CENTER);
+	SetBkMode(hdc, 1);
+	SetTextColor(hdc, RGB(100, 255, 0));
+	str_temp = double_to_string(sum_income, mainCurency);
+	TextOutA(hdc, coord[0][ratio].X + coord_zero.X, coord[0][ratio].Y + coord_zero.Y, str_temp.c_str(), str_temp.size());
+	SetTextColor(hdc, RGB(255, 0, 100));
+	str_temp = double_to_string(sum_spend, mainCurency);
+	TextOutA(hdc, coord[1][ratio].X + coord_zero.X, coord[1][ratio].Y + coord_zero.Y, str_temp.c_str(), str_temp.size());
+	switch (ratio)
+	{
+	case 0:
+		SetTextColor(hdc, RGB(100, 255, 0));
+		str_temp = double_to_string((sum_income - sum_spend), mainCurency);
+		TextOutA(hdc, 73 + coord_zero.X, 140 + coord_zero.Y, str_temp.c_str(), str_temp.size());
+		break;
+	case 1:
+		SetTextColor(hdc, RGB(255, 0, 100));
+		str_temp = double_to_string((sum_income - sum_spend), mainCurency);
+		TextOutA(hdc, 73 + coord_zero.X, 140 + coord_zero.Y, str_temp.c_str(), str_temp.size());
+		break;
+	case 2:
+		SetTextColor(hdc, RGB(255, 255, 255));
+		TextOutA(hdc, 73 + coord_zero.X, 140 + coord_zero.Y, "ZERO", 4);
+		break;
+	}
+	SelectObject(hdc, CreateSolidBrush(RGB(0, 0, 0)));
+}
+string double_to_string(double number, curency& mainCurency)
+{
+	string res;
+	res += to_string(int(number * mainCurency.course * 100) / 100);
+	res += '.';
+	res += to_string(int((number * mainCurency.course - (int(number * mainCurency.course))) * 100));
+	return res;
+}
+float double_to_float(double number, curency& mainCurency)
+{
+	float res = 0;
+	res += (int(number * mainCurency.course * 100) / 100);
+	res += (int((number * mainCurency.course - (int(number * mainCurency.course))) * 100)) / 100;
+	return res;
 }

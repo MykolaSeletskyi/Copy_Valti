@@ -13,7 +13,7 @@ void writing_categories(sumAndCat *categories,bool income_spend)
 	}
 	for (int i = 0; i < countCategories; i++)
 	{
-		fout << categories[i].name << " ";
+		fout << categories[i].name << "\n";
 		fout << categories[i].sum;
 		if (categories[i+1].sum == 0)
 		{
@@ -26,6 +26,7 @@ void writing_categories(sumAndCat *categories,bool income_spend)
 }
 void reading_categories(sumAndCat* categories, bool income_spend)
 {
+	char sym = 0;
 	std::ifstream fin;
 	if (income_spend)
 	{
@@ -43,8 +44,14 @@ void reading_categories(sumAndCat* categories, bool income_spend)
 	int count = 0;
 	while (!fin.eof())
 	{
-		fin >> categories[count].name;
+		     // read all line by symbols on case if category contain several words
+		for (;;) {
+			fin.get(sym);
+			if (sym == '\n')break;
+			else categories[count].name += sym;  //adding symbol to action category, untill end of a line
+		}
 		fin >> categories[count].sum;
+		fin.get(sym);
 		count++;
 	}
 }
@@ -84,11 +91,13 @@ void exitInitCurency(curency Curency[], curency & mainCurency)
 	cur.close();
 }
 
-void initActions(transaction*& actions, int& actionsCount, sumAndCat* categories, sumAndCat* spendcategories) {
+void initActions(transaction*& actions, int& actionsCount, sumAndCat* categories, sumAndCat* spendcategories, double* sum_income, double* sum_spend) {
 	int i = 0;
 	string bufer = "";
 	char sym = 0;
 	std::fstream act("actions.txt");
+	act >> *sum_income;
+	act >> *sum_spend;
 	act >> actionsCount;
 	actions = new transaction[actionsCount];
 	while (!act.eof()) {
@@ -99,45 +108,44 @@ void initActions(transaction*& actions, int& actionsCount, sumAndCat* categories
 			if (sym == '\n')break;
 			else actions[i].category += sym;
 		}
-		act>> actions[i].date.year;
-		act>> actions[i].date.mon;
-		act>> actions[i].date.day;
-		act>> actions[i].date.hour;
-		act>> actions[i].date.min ;
+		act >> actions[i].date.year;
+		act >> actions[i].date.mon;
+		act >> actions[i].date.day;
+		act >> actions[i].date.hour;
+		act >> actions[i].date.min;
 		act.get(sym);
 		for (;;) {
 			act.get(sym);
 			if (sym == '\n')break;
 			else actions[i].details += sym;
 		}
-		act>> actions[i].incomeSpend;
-		act>> actions[i].sum;
+		act >> actions[i].incomeSpend;
+		act >> actions[i].sum;
 		for (int j = 0; j < 15; j++) {
-			if (actions[i].category == categories[j].name &&actions[i].incomeSpend)categories[j].sum += actions[i].sum;
+			if (actions[i].category == categories[j].name && actions[i].incomeSpend)categories[j].sum += actions[i].sum;
 			else if (spendcategories[j].name == actions[i].category && !actions[i].incomeSpend)spendcategories[j].sum += actions[i].sum;
 		}
 		i++;
 	}
-
-
 	act.close();
-
 }
 
-void exitInitActions(transaction*& actions, int& actionsCount) {
+void exitInitActions(transaction*& actions, int& actionsCount, double* sum_income, double* sum_spend) {
 	std::fstream act("actions.txt");
-	std::fstream("actions.txt",std::ios::out);
+	std::fstream("actions.txt", std::ios::out);
+	act << *sum_income << endl;
+	act << *sum_spend << endl;
 	act << actionsCount << endl;
 	for (int i = 0; i < actionsCount; i++) {
-		act<<actions[i].category<<endl;
+		act << actions[i].category << endl;
 		act << actions[i].date.year << ' ';
 		act << actions[i].date.mon << ' ';
 		act << actions[i].date.day << ' ';
 		act << actions[i].date.hour << ' ';
-		act << actions[i].date.min<<endl;
-		act << actions[i].details<<endl;
+		act << actions[i].date.min << endl;
+		act << actions[i].details << endl;
 		act << actions[i].incomeSpend << ' ';
-		act << actions[i].sum<<endl;
+		act << actions[i].sum << endl;
 	}
 	act.close();
 }

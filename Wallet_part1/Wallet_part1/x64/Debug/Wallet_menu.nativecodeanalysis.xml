@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<DEFECTS>
+  <DEFECT>
+    <SFA>
+      <FILEPATH>C:\Users\Selet\Source\Repos\MykolaSeletskyi\Copy_Valti\Wallet_part1\Wallet_part1\</FILEPATH>
+      <FILENAME>IncomesSpends.h</FILENAME>
+      <LINE>27</LINE>
+      <COLUMN>0</COLUMN>
+    </SFA>
+    <DEFECTCODE>26495</DEFECTCODE>
+    <DESCRIPTION>Variable 'transaction::sum' is uninitialized. Always initialize a member variable (type.6).</DESCRIPTION>
+    <FUNCTION>transaction::{ctor}</FUNCTION>
+    <DECORATED>??0transaction@@QEAA@XZ</DECORATED>
+    <FUNCLINE>27</FUNCLINE>
+    <ADDITIONALINFO>
+      <targetSymbol>transaction::sum</targetSymbol>
+    </ADDITIONALINFO>
+    <PATH></PATH>
+  </DEFECT>
+  <DEFECT>
+    <SFA>
+      <FILEPATH>C:\Users\Selet\Source\Repos\MykolaSeletskyi\Copy_Valti\Wallet_part1\Wallet_part1\</FILEPATH>
+      <FILENAME>IncomesSpends.h</FILENAME>
+      <LINE>27</LINE>
+      <COLUMN>0</COLUMN>
+    </SFA>
+    <DEFECTCODE>26495</DEFECTCODE>
+    <DESCRIPTION>Variable 'transaction::date' is uninitialized. Always initialize a member variable (type.6).</DESCRIPTION>
+    <FUNCTION>transaction::{ctor}</FUNCTION>
+    <DECORATED>??0transaction@@QEAA@XZ</DECORATED>
+    <FUNCLINE>27</FUNCLINE>
+    <ADDITIONALINFO>
+      <targetSymbol>transaction::date</targetSymbol>
+    </ADDITIONALINFO>
+    <PATH></PATH>
+  </DEFECT>
+</DEFECTS>

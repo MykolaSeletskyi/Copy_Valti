@@ -87,10 +87,14 @@
       <Optimization>Disabled</Optimization>
       <SDLCheck>true</SDLCheck>
       <ConformanceMode>true</ConformanceMode>
+      <BrowseInformation>true</BrowseInformation>
     </ClCompile>
     <Link>
       <SubSystem>Console</SubSystem>
     </Link>
+    <Bscmake>
+      <PreserveSbr>true</PreserveSbr>
+    </Bscmake>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
     <ClCompile>
@@ -123,12 +127,14 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="Callend.cpp" />
     <ClCompile Include="IncomesSpends.cpp" />
     <ClCompile Include="Inits.cpp" />
     <ClCompile Include="Show.cpp" />
     <ClCompile Include="Wallet_menu.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="Callend.h" />
     <ClInclude Include="IncomesSpends.h" />
     <ClInclude Include="Inits.h" />
     <ClInclude Include="Show.h" />
