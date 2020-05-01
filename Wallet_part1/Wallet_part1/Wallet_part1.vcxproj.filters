@@ -30,6 +30,9 @@
     <ClCompile Include="Callend.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="functional_Callend.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="IncomesSpends.h">
@@ -42,6 +45,9 @@
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="Callend.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="functional_Callend.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>

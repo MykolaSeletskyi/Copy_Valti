@@ -1,6 +1,8 @@
-﻿  IncomesSpends.cpp
-C:\Users\Selet\Source\Repos\MykolaSeletskyi\Copy_Valti\Wallet_part1\Wallet_part1\IncomesSpends.cpp(86,24): warning C4834: discarding return value of function with 'nodiscard' attribute
-C:\Users\Selet\Source\Repos\MykolaSeletskyi\Copy_Valti\Wallet_part1\Wallet_part1\IncomesSpends.cpp(152,6): warning C4101: 'bufer': unreferenced local variable
-C:\Users\Selet\Source\Repos\MykolaSeletskyi\Copy_Valti\Wallet_part1\Wallet_part1\IncomesSpends.cpp(109): warning C4715: 'adding_category': not all control paths return a value
-C:\Users\Selet\Source\Repos\MykolaSeletskyi\Copy_Valti\Wallet_part1\Wallet_part1\IncomesSpends.cpp(143): warning C4715: 'choising_category': not all control paths return a value
+﻿  Callend.cpp
+C:\Users\Selet\Source\Repos\MykolaSeletskyi\Copy_Valti\Wallet_part1\Wallet_part1\Callend.cpp(54,33): warning C4244: '=': conversion from 'double' to 'LONG', possible loss of data
+C:\Users\Selet\Source\Repos\MykolaSeletskyi\Copy_Valti\Wallet_part1\Wallet_part1\Callend.cpp(55,40): warning C4244: '=': conversion from 'double' to 'LONG', possible loss of data
+C:\Users\Selet\Source\Repos\MykolaSeletskyi\Copy_Valti\Wallet_part1\Wallet_part1\Callend.cpp(49,32): warning C4101: 'csbiInfo': unreferenced local variable
+  functional_Callend.cpp
+C:\Users\Selet\Source\Repos\MykolaSeletskyi\Copy_Valti\Wallet_part1\Wallet_part1\functional_Callend.cpp(56,9): warning C4101: 'temp': unreferenced local variable
+  Generating Code...
   Wallet_part1.vcxproj -> C:\Users\Selet\Source\Repos\MykolaSeletskyi\Copy_Valti\Wallet_part1\x64\Debug\Wallet_part1.exe

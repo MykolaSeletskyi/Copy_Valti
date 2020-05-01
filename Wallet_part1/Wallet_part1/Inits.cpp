@@ -93,6 +93,7 @@ void exitInitCurency(curency Curency[], curency & mainCurency)
 
 void initActions(transaction*& actions, int& actionsCount, sumAndCat* categories, sumAndCat* spendcategories, double* sum_income, double* sum_spend) {
 	int i = 0;
+	int temp_time;
 	string bufer = "";
 	char sym = 0;
 	std::fstream act("actions.txt");
@@ -108,11 +109,16 @@ void initActions(transaction*& actions, int& actionsCount, sumAndCat* categories
 			if (sym == '\n')break;
 			else actions[i].category += sym;
 		}
-		act >> actions[i].date.year;
-		act >> actions[i].date.mon;
-		act >> actions[i].date.day;
-		act >> actions[i].date.hour;
-		act >> actions[i].date.min;
+		act >> temp_time ;
+		actions[i].date.year = temp_time;
+		act >> temp_time;
+		actions[i].date.mon = temp_time;
+		act >> temp_time;
+		actions[i].date.day = temp_time;
+		act >> temp_time;
+		actions[i].date.hour = temp_time;
+		act >> temp_time;
+		actions[i].date.min = temp_time;
 		act.get(sym);
 		for (;;) {
 			act.get(sym);
@@ -138,11 +144,11 @@ void exitInitActions(transaction*& actions, int& actionsCount, double* sum_incom
 	act << actionsCount << endl;
 	for (int i = 0; i < actionsCount; i++) {
 		act << actions[i].category << endl;
-		act << actions[i].date.year << ' ';
-		act << actions[i].date.mon << ' ';
-		act << actions[i].date.day << ' ';
-		act << actions[i].date.hour << ' ';
-		act << actions[i].date.min << endl;
+		act << int(actions[i].date.year) << ' ';
+		act << int(actions[i].date.mon) << ' ';
+		act << int(actions[i].date.day) << ' ';
+		act << int(actions[i].date.hour) << ' ';
+		act << int(actions[i].date.min) << endl;
 		act << actions[i].details << endl;
 		act << actions[i].incomeSpend << ' ';
 		act << actions[i].sum << endl;

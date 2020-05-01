@@ -12,11 +12,14 @@ using std::string;
 
 const int countCategories = 15;
 struct dates {
-	int year;
-	int mon;
-	int day;
-	int hour;
-	int min;
+	unsigned int year : 12;
+	unsigned int mon : 4;
+	unsigned int day : 5;
+	unsigned int hour : 5;
+	unsigned int min : 6;
+	unsigned int full_date() {
+		return year << 20 | mon << 16 | day << 11 | hour << 6 | min;
+	}
 };
 struct transaction {
 	double sum;

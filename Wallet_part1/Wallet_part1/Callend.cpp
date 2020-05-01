@@ -1,137 +1,118 @@
-#include "Callend.h"
+ï»¿#include "Callend.h"
 #include <Windows.h>
 
+template <typename mytype>
 
-int show_calend(int &today, int &days, int &year, int &mon, int &week_day)
+void gotopaint(int a, int b, mytype name, bool paint) {
+    HANDLE handle = GetStdHandle(STD_OUTPUT_HANDLE);
+    gotoxy(a, b);
+    if (paint)SetConsoleTextAttribute(handle, 64);
+    cout << name;
+    SetConsoleTextAttribute(handle, 15);
+}
+int show_calend(int& today, int& days, int& year, int& mon, int& week_day)
 {
-	
 
 
+    posision arr[31];
+    system("cls");
 
-	posision arr[31];
-	system("cls");
-	bool chek = 0;
-
-	HWND hwnd; // äåñêðèïòîð ÝÊÐÀÍÀ
-	RECT rect; // äåñêðèïòîð îêíà
-	hwnd = GetConsoleWindow();  // çàïîëíåíèå ïîëåé äåñêðèïòîðà ýêðàíà	POINT P;   // òèï òî÷êà (õ, ó)
-	HANDLE handle = GetStdHandle(STD_OUTPUT_HANDLE);   // äåñêðèïòîð ñòàíäàðòíîãî ïîòîêà âûâîäà è åãî çàïîëíåíèå
-	
-	
-	
-	
-
-	cout << "\t\t    Year  " << year << "  Mounth " << mon << endl << endl;
-	cout << "Mon\tTue\tWed\tThu\tFri\tSut\tSun" << endl << endl;
-
-	for (int i = 0; i < week_day; i++) {
-		cout << " \t";
-	}
-	for (int i = 1; i <= days; i++) {
-		if (week_day % 7 == 0) {
-			cout << endl << endl;
-			week_day = 0;
-		}
-		getxy(arr[i - 1].x, arr[i - 1].y);
-		cout << i << "\t";
-		week_day++;
-	}
-
-	int pos = 17, col = 64;
-	gotoxy(arr[pos].x, arr[pos].y);
-	SetConsoleTextAttribute(handle, col);
-	cout << pos;
-	SetConsoleTextAttribute(handle, 15);
-	
-	char move = 0;
-
-	CONSOLE_SCREEN_BUFFER_INFO csbiInfo;   // äåñêðèïòîð èíôîðìàöèè î áóôåðå ýêðàíà (âûñîòà, øèðèíà ...)
-	for (;;) {
-		bool click = 0;
-		POINT P;
-		GetCursorPos(&P);
-		GetWindowRect(hwnd, &rect);
-		P.x = (P.x - rect.left) / 10;
-		P.y = (((P.y - rect.top) - 40) / 14) + 1;
-		P.x /= 0.82;
-		if (P.x % 8 <5 && P.y % 2 == 0) {
-			
-				for (int i = 0; i < 30; i++) {
-
-					if (abs(P.x - arr[i].x) < 4 && abs(P.y - arr[i].y) < 2) {
-
-						if (i == pos)break;
-						gotoxy(arr[pos].x, arr[pos].y);
-						cout << pos+1;
-						gotoxy(arr[i].x, arr[i].y);
-						SetConsoleTextAttribute(handle, col);
-						cout <<i+1;
-						SetConsoleTextAttribute(handle, 15);
-						pos = i;
-						click = 1;
-						break;
-					}
-
-				}
-		}
-		SHORT state = GetAsyncKeyState(VK_LBUTTON);
-		if (state & 0x8000) {
-			gotoxy(15, 15);
-			cout << pos + 1 << " clocked!";
-		}
-	}
-
-	/*do {
-		move = _getch();
-		switch (move) {
-
-		case 72: {
-			pos >= 10 ? cout << "\b\b" << pos : cout << "\b" << pos;
-			if (pos - 7 >= 1)pos -= 7;
-			gotoxy(arr[pos - 1].x, arr[pos - 1].y);
-			SetConsoleTextAttribute(handle, col);
-			cout << pos;
-
-			SetConsoleTextAttribute(handle, 15);
-			break;
-		}
-		case 80: {
-			pos >= 10 ? cout << "\b\b" << pos : cout << "\b" << pos;
-			if (pos + 7 <= days)pos += 7;
-			gotoxy(arr[pos - 1].x, arr[pos - 1].y);
-			SetConsoleTextAttribute(handle, col);
-			cout << pos;
-			SetConsoleTextAttribute(handle, 15);
-			break;
-		}
-		case 77: {
-			pos >= 10 ? cout << "\b\b" << pos : cout << "\b" << pos;
-			pos++;
-			if (pos > days)return 1;
-			gotoxy(arr[pos - 1].x, arr[pos - 1].y);
-			SetConsoleTextAttribute(handle, col);
-			cout << pos;
-			SetConsoleTextAttribute(handle, 15);
-			break;
-		}
-		case 75: {
-			if (pos < 2)return 0;
-			pos >= 10 ? cout << "\b\b" << pos : cout << "\b" << pos;
-			pos--;
-			gotoxy(arr[pos - 1].x, arr[pos - 1].y);
-			SetConsoleTextAttribute(handle, col);
-			cout << pos;
-			SetConsoleTextAttribute(handle, 15);
-			break;
-		}
-		case 27: {
-			return 27;
-		}
-		}
+    RECT rect; // Ã¤Ã¥Ã±ÃªÃ°Ã¨Ã¯Ã²Ã®Ã° Ã®ÃªÃ­Ã 
+    HWND hwnd = GetConsoleWindow();  // Ã§Ã Ã¯Ã®Ã«Ã­Ã¥Ã­Ã¨Ã¥ Ã¯Ã®Ã«Ã¥Ã© Ã¤Ã¥Ã±ÃªÃ°Ã¨Ã¯Ã²Ã®Ã°Ã  Ã½ÃªÃ°Ã Ã­Ã 
+    HANDLE handle = GetStdHandle(STD_OUTPUT_HANDLE);   // Ã¤Ã¥Ã±ÃªÃ°Ã¨Ã¯Ã²Ã®Ã° Ã±Ã²Ã Ã­Ã¤Ã Ã°Ã²Ã­Ã®Ã£Ã® Ã¯Ã®Ã²Ã®ÃªÃ  Ã¢Ã»Ã¢Ã®Ã¤Ã  Ã¨ Ã¥Ã£Ã® Ã§Ã Ã¯Ã®Ã«Ã­Ã¥Ã­Ã¨Ã¥
 
 
-	} while (move);*/
-	return false;
+    cout << "\t\t    Year  " << year << "  Mounth " << mon << endl << endl;
+    cout << "Mon\tTue\tWed\tThu\tFri\tSut\tSun" << endl << endl;
+
+    for (int i = 0; i < week_day; i++) {
+        cout << " \t";
+    }
+    for (int i = 1; i <= days; i++) {
+        if (week_day % 7 == 0) {
+            cout << endl << endl;
+            week_day = 0;
+        }
+        getxy(arr[i - 1].x, arr[i - 1].y);
+        cout << i << "\t";
+        week_day++;
+    }
+
+    int pos = 17, col = 64;
+    gotopaint(arr[pos].x, arr[pos].y, pos, 1);
+
+    char move = 0;
+    bool prev = 0, next = 0;
+    gotopaint(5, 17, "PREVIOUS", 0);
+    gotopaint(25, 17, "NEXT", 0);
+
+    CONSOLE_SCREEN_BUFFER_INFO csbiInfo;   // Ã¤Ã¥Ã±ÃªÃ°Ã¨Ã¯Ã²Ã®Ã° Ã¨Ã­Ã´Ã®Ã°Ã¬Ã Ã¶Ã¨Ã¨ Ã® Ã¡Ã³Ã´Ã¥Ã°Ã¥ Ã½ÃªÃ°Ã Ã­Ã  (Ã¢Ã»Ã±Ã®Ã²Ã , Ã¸Ã¨Ã°Ã¨Ã­Ã  ...)
+    for (;;) {
+        POINT P;
+        GetCursorPos(&P);
+        GetWindowRect(hwnd, &rect);
+        P.x = (P.x - rect.left) / 8.19;
+        P.y = (((P.y - rect.top) - 40) / 13.5);
+        int back = pos;
+        if (P.x % 8 < 4 && P.y % 2 == 0 && P.x > 0 && P.y > 0) {
+            int iter2 = 0;
+            for (int i = pos;; i++) {
+                if (iter2 > 31)break;
+
+                if (back < 0)back = days - 1;
+                if (i > days - 1)i = 0;
+                if (abs(P.x - arr[back].x) < 4 && abs(P.y - arr[back].y) < 2) i = back;
+
+                if (abs(P.x - arr[i].x) < 4 && abs(P.y - arr[i].y) < 2) {
+
+                    if (i == pos)break;
+                    gotoxy(arr[pos].x, arr[pos].y);
+                    cout << pos + 1;
+                    gotopaint(arr[i].x, arr[i].y, i + 1, 1);
+
+                    pos = i;
+                    break;
+                }
+                back--;
+                iter2++;
+            }
+
+        }
+        if (prev) {
+            if ((abs(P.y - 17) > 0) || P.x < 5 || P.x > 14) {
+                gotoxy(5, 17);     cout << "PREVIOUS";
+                prev = 0;
+            }
+        }
+        if (next) {
+            if ((abs(P.y - 17) > 0) || P.x < 24 || P.x > 29) {
+                gotoxy(25, 17);    cout << "NEXT";
+                next = 0;
+            }
+        }
+        if (abs(P.y - 17) <= 1) {
+            if (P.x >= 5 && P.x <= 14) {
+                if (prev)goto base;
+                gotoxy(arr[pos].x, arr[pos].y);   cout << pos + 1;
+                gotopaint(5, 17, "PREVIOUS", 1);
+                prev = 1;
+            }
+            if (P.x >= 24 && P.x <= 29) {
+                if (next)goto base;
+                if (!next && !prev) { gotoxy(arr[pos].x, arr[pos].y);  cout << pos + 1; }
+                gotopaint(25, 17, "NEXT", 1);
+                next = 1;
+            }
+        }
+    base:
+        if (GetKeyState(VK_LBUTTON) & 0x8000) {
+            Sleep(100);
+            if (prev)return 0;
+            if (next)return 1;
+
+        }
+    }
+
 }
 
 void controling_dates(int &today, int &days, int &year, int &mon, int &week_day)
@@ -147,7 +128,7 @@ void controling_dates(int &today, int &days, int &year, int &mon, int &week_day)
 	if (mon == 1 || mon == 3 || mon == 5 || mon == 7 || mon == 8 || mon == 10 || mon == 12)days = 31;
 	else if ((year % 4 == 0 && !(year % 100 == 0 && year % 400 != 0)) && mon == 2) {
 		days = 29;
-	}
+	} 
 	else if (mon == 2)days = 28;
 	else days = 30;
 }
@@ -166,6 +147,10 @@ void CalendMenu()
 	SYSTEMTIME stime;
 	FILETIME ltime;
 	FILETIME ftTimeStamp;
+	int size_event = 0;
+	event* events = new event[size_event];
+	//add_an_event_to_an_array(events, &size_event, create_event("ÑÑŽÐ´Ð¸ Ð¿ÐµÑ€ÐµÐ´Ð°Ñ‚Ð¸ ÑÑ‚Ñ€ÑƒÐºÑ‚ÑƒÑ€Ñƒ Ð· Ñ‚ÐµÐ¿ÐµÑ€Ñ–ÑˆÐ½ÑŒÐ¾ÑŽ Ð´Ð°Ñ‚Ð¾ÑŽ")); //Ð²Ð¸Ð·Ð¾Ð² Ñ„ÑƒÐ½ÐºÑ†Ñ–Ñ— Ð´Ð¾Ð±Ð°Ð²Ð»ÐµÐ½Ñ
+	//delete_event(events, &size_event, index - 1);//Ñ†Ðµ Ð²Ð¸Ð´Ð°Ð»ÐµÐ½Ð½Ñ (index - 1, Ð±Ð¾ Ð¼Ð°ÑÐ¸Ð² Ð²Ñ–Ð´ 0 Ð¹Ð´Ðµ)
 	{
 		
 		for (int i = 0; i < 30; i++) {
@@ -208,6 +193,7 @@ void CalendMenu()
 			break;
 		}
 		case 27: {
+			delete[] events;
 			system("cls");
 			return;
 		}

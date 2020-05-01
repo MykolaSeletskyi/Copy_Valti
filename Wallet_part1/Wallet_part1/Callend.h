@@ -4,8 +4,6 @@
 #include <iostream>
 #include "IncomesSpends.h"
 
-
-
 using std::cout;
 using std::cin;
 using std::endl;
