@@ -20,8 +20,8 @@ const int dates_color = 112;
 const int color[countCategories] = { 16776960, 16711680, 16711935, 32768, 128, 65280, 8388608, 32896, 8388736, 255, 8421376, 65535, 6566655, 5963676, 8453888 };
 
 void hotkeys();
-void menu_income_and_Spend(transaction*& actions, int& actionsCount, sumAndCat* categories, bool income_Spend, curency& mainCurency, double* sum_income, double* sum_spend);
+void menu_income_and_Spend(transaction*& actions, int& actionsCount, sumAndCat* categories, bool income_Spend, curency& mainCurency, double* sum_categor);
 void transactionsByTime(transaction actions[], int& actionsCount, curency& mainCurency);
 void show_balance(COORD coord_zero, double sum_income, double sum_spend, curency& mainCurency);
 string double_to_string(double number, curency& mainCurency);
-float double_to_float(double number, curency& mainCurency);
+

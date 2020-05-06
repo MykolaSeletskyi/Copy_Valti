@@ -1,8 +1,2 @@
-﻿  Callend.cpp
-C:\Users\Selet\Source\Repos\MykolaSeletskyi\Copy_Valti\Wallet_part1\Wallet_part1\Callend.cpp(54,33): warning C4244: '=': conversion from 'double' to 'LONG', possible loss of data
-C:\Users\Selet\Source\Repos\MykolaSeletskyi\Copy_Valti\Wallet_part1\Wallet_part1\Callend.cpp(55,40): warning C4244: '=': conversion from 'double' to 'LONG', possible loss of data
-C:\Users\Selet\Source\Repos\MykolaSeletskyi\Copy_Valti\Wallet_part1\Wallet_part1\Callend.cpp(49,32): warning C4101: 'csbiInfo': unreferenced local variable
-  functional_Callend.cpp
-C:\Users\Selet\Source\Repos\MykolaSeletskyi\Copy_Valti\Wallet_part1\Wallet_part1\functional_Callend.cpp(56,9): warning C4101: 'temp': unreferenced local variable
-  Generating Code...
-  Wallet_part1.vcxproj -> C:\Users\Selet\Source\Repos\MykolaSeletskyi\Copy_Valti\Wallet_part1\x64\Debug\Wallet_part1.exe
+﻿  Wallet_menu.cpp
+  Wallet_part1.vcxproj -> C:\Users\mykola\source\repos\MykolaSeletskyi\Copy_Valti\Wallet_part1\x64\Debug\Wallet_part1.exe

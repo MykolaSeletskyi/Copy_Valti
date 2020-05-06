@@ -17,34 +17,6 @@ int main() {
 	event* events = new event[eventsCount];
 	double sum_income = 0;
 	double sum_spend = 0;
-	/*int com = 2320, spe = 600, ccom = 0, cspe = 0;
-	if (com > spe) {
-		ccom = 10;
-		cspe = float(10 / (float(com) / spe));
-	}
-	else {
-		cspe = 10;
-		ccom= float(10 / (float(spe) / com));
-	}
-	for (int i = 10; i >= 0; i--) {
-		if (i <= ccom) {
-			SetConsoleTextAttribute(handle, 35);
-			cout << " ";
-			SetConsoleTextAttribute(handle, 15);
-		}
-		else cout << " ";
-		cout << "  ";
-		if (i <= cspe) {
-			SetConsoleTextAttribute(handle, 64);
-			cout << " ";
-			SetConsoleTextAttribute(handle, 15);
-		}
-		else cout << " ";
-		cout << "\n";
-
-		system("pause");
-	}*/
-
 	
 	SetConsoleTitle("Wallet & events");
 	curency Curency[15];
@@ -61,7 +33,7 @@ int main() {
 	initActions(actions, actionsCount, incomeCategories, spendCategories, &sum_income, &sum_spend);
 	reading_categories(incomeCategories, 1);
 	reading_categories(spendCategories, 0);
-
+	system("cls");
 	string menu_items[] = { "Income","Spend","Settings" }; 
 	int selected_option = 0;
 	BOOL refresh = true;
@@ -137,11 +109,11 @@ int main() {
 			{
 			case 0:
 
-				menu_income_and_Spend(*&actions, actionsCount, incomeCategories, 1, mainCurency, &sum_income, &sum_spend);
+				menu_income_and_Spend(*&actions, actionsCount, incomeCategories, 1, mainCurency, &sum_income);
 				refresh = true;
 				break;
 			case 1:
-				menu_income_and_Spend(*&actions, actionsCount, spendCategories, 0, mainCurency, &sum_income, &sum_spend);
+				menu_income_and_Spend(*&actions, actionsCount, spendCategories, 0, mainCurency, &sum_spend);
 				refresh = true;
 				break;
 			case 2:

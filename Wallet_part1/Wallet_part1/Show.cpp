@@ -17,7 +17,7 @@ void hotkeys() {
 	SetConsoleTextAttribute(handle, font_color);
 }
 
-void action_manager(transaction*& actions, int& actionsCount, sumAndCat* categories, int index, curency& mainCurency)  
+void action_manager(transaction*& actions, int& actionsCount, sumAndCat* categories, int index, curency& mainCurency, double* sum_categor)
 {
 	BOOL selected_option = true;
 	for (;;)
@@ -25,6 +25,7 @@ void action_manager(transaction*& actions, int& actionsCount, sumAndCat* categor
 		int count_lines = 5;
 		system("cls");
 		hotkeys();
+		gotoxy(0, 0);
 		cout << (actions[index].date.hour < 10 ? "0" : "");
 		cout << actions[index].date.hour << ':';
 		cout << (actions[index].date.min < 10 ? "0" : "");
@@ -63,15 +64,17 @@ void action_manager(transaction*& actions, int& actionsCount, sumAndCat* categor
 				for (int i = 0; i < countCategories; i++) {
 					if (categories[i].name == actions[index].category) {
 						categories[i].sum -= actions[index].sum;
+						*sum_categor -= actions[index].sum;
 						break;
 					}
 				}
 				changingSize(0, actions, actionsCount, index);
+				return;
 			}
+			break;
 		case 133: 
 			CalendMenu();
 			break;
-
 		case 59:
 			system("start calc");
 			break;
@@ -116,7 +119,7 @@ void diagram_categories(transaction*& actions, int& actionsCount, sumAndCat* cat
 		}
 	}
 }
-void menu_income_and_Spend(transaction*& actions, int& actionsCount, sumAndCat* categories, bool income_Spend, curency& mainCurency, double* sum_income, double* sum_spend)
+void menu_income_and_Spend(transaction*& actions, int& actionsCount, sumAndCat* categories, bool income_Spend, curency& mainCurency, double* sum_categor)
 {
 
 	COORD coord_diagram = { 300,70 };
@@ -205,27 +208,20 @@ void menu_income_and_Spend(transaction*& actions, int& actionsCount, sumAndCat* 
 			system("start calc");
 			break;
 		case 13://(Enter)
-			//for (int i = 0; i < 40; i++) {
-			//	for (int j = 0; j < 20; j++)cout << "\t";
-			//}
+			for (int i = 0; i < 40; i++) {
+				for (int j = 0; j < 20; j++)cout << "\t";
+			}
 			system("cls");
 
 			if (selected_option == actionsCount)
 			{
 				adding(actions, categories, countCategories, actionsCount, mainCurency);
 				actions[actionsCount - 1].incomeSpend = income_Spend;
-				if (income_Spend)
-				{
-					*sum_income += actions[actionsCount - 1].sum;
-				}
-				else
-				{
-					*sum_spend += actions[actionsCount - 1].sum;
-				}
+				*sum_categor += actions[actionsCount - 1].sum;
 			}
 			else
 			{
-				action_manager(*&actions, actionsCount, categories, selected_option, mainCurency);
+				action_manager(*&actions, actionsCount, categories, selected_option, mainCurency, sum_categor);
 			}
 			system("cls");
 			selected_option = actionsCount;
@@ -321,7 +317,7 @@ void transactionsByTime(transaction actions[], int& actionsCount, curency& mainC
 void show_balance(COORD coord_zero, double sum_income, double sum_spend, curency& mainCurency)
 {
 	int ratio;
-	ratio = (float(sum_income) > float(sum_spend) ? 0 : (float(sum_income) < float(sum_spend) ? 1 : 2));
+	ratio = (int(sum_income*100) > int(sum_spend * 100) ? 0 : (int(sum_income * 100) < int(sum_spend * 100) ? 1 : 2));
 	string name_file;
 	if (ratio != 2)
 	{
@@ -338,11 +334,14 @@ void show_balance(COORD coord_zero, double sum_income, double sum_spend, curency
 		system("cls");
 		return;
 	}
+
 	int count_x = 0;
 	int count_y = 0;
 	string str_temp;
 	fin >> str_temp;
 	int size_str = str_temp.size() + 1;
+
+	//draws weigh 
 	while (!fin.eof())
 	{
 		if (fin.get() == '0')
@@ -368,32 +367,38 @@ void show_balance(COORD coord_zero, double sum_income, double sum_spend, curency
 			count_x++;
 		}
 	}
-	COORD coord[2][3] = { {{25, 67},{25, 44},{25, 56}}, {{117, 45},{117, 66},{120, 56}} };
+
+	COORD coord[2][3] = { {{25, 67},{25, 44},{25, 56}}, {{117, 45},{117, 66},{120, 56}} };//coordinates for displaying the balance
+
 	SetTextAlign(hdc, TA_CENTER);
 	SetBkMode(hdc, 1);
 	SetTextColor(hdc, RGB(100, 255, 0));
+
 	str_temp = double_to_string(sum_income, mainCurency);
-	TextOutA(hdc, coord[0][ratio].X + coord_zero.X, coord[0][ratio].Y + coord_zero.Y, str_temp.c_str(), str_temp.size());
+	TextOutA(hdc, coord[0][ratio].X + coord_zero.X, coord[0][ratio].Y + coord_zero.Y, str_temp.c_str(), str_temp.size());//reflects income
 	SetTextColor(hdc, RGB(255, 0, 100));
+
 	str_temp = double_to_string(sum_spend, mainCurency);
-	TextOutA(hdc, coord[1][ratio].X + coord_zero.X, coord[1][ratio].Y + coord_zero.Y, str_temp.c_str(), str_temp.size());
-	switch (ratio)
+	TextOutA(hdc, coord[1][ratio].X + coord_zero.X, coord[1][ratio].Y + coord_zero.Y, str_temp.c_str(), str_temp.size());//reflects spend
+
+	//reflects balance
+	switch (ratio)//reflects balance
 	{
 	case 0:
 		SetTextColor(hdc, RGB(100, 255, 0));
-		str_temp = double_to_string((sum_income - sum_spend), mainCurency);
-		TextOutA(hdc, 73 + coord_zero.X, 140 + coord_zero.Y, str_temp.c_str(), str_temp.size());
+
 		break;
 	case 1:
 		SetTextColor(hdc, RGB(255, 0, 100));
-		str_temp = double_to_string((sum_income - sum_spend), mainCurency);
-		TextOutA(hdc, 73 + coord_zero.X, 140 + coord_zero.Y, str_temp.c_str(), str_temp.size());
 		break;
 	case 2:
 		SetTextColor(hdc, RGB(255, 255, 255));
 		TextOutA(hdc, 73 + coord_zero.X, 140 + coord_zero.Y, "ZERO", 4);
-		break;
+		SelectObject(hdc, CreateSolidBrush(RGB(0, 0, 0)));
+		return;
 	}
+	str_temp = double_to_string(double(sum_income - sum_spend), mainCurency);
+	TextOutA(hdc, 73 + coord_zero.X, 140 + coord_zero.Y, str_temp.c_str(), str_temp.size());
 	SelectObject(hdc, CreateSolidBrush(RGB(0, 0, 0)));
 }
 string double_to_string(double number, curency& mainCurency)
@@ -401,13 +406,6 @@ string double_to_string(double number, curency& mainCurency)
 	string res;
 	res += to_string(int(number * mainCurency.course * 100) / 100);
 	res += '.';
-	res += to_string(int((number * mainCurency.course - (int(number * mainCurency.course))) * 100));
-	return res;
-}
-float double_to_float(double number, curency& mainCurency)
-{
-	float res = 0;
-	res += (int(number * mainCurency.course * 100) / 100);
-	res += (int((number * mainCurency.course - (int(number * mainCurency.course))) * 100)) / 100;
+	res += to_string(abs(int((number * mainCurency.course - (int(number * mainCurency.course))) * 100)));
 	return res;
 }

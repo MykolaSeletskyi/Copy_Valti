@@ -44,7 +44,7 @@ void reading_categories(sumAndCat* categories, bool income_spend)
 	int count = 0;
 	while (!fin.eof())
 	{
-		     // read all line by symbols on case if category contain several words
+		// read all line by symbols on case if category contain several words
 		for (;;) {
 			fin.get(sym);
 			if (sym == '\n')break;
@@ -94,7 +94,6 @@ void exitInitCurency(curency Curency[], curency & mainCurency)
 void initActions(transaction*& actions, int& actionsCount, sumAndCat* categories, sumAndCat* spendcategories, double* sum_income, double* sum_spend) {
 	int i = 0;
 	int temp_time;
-	string bufer = "";
 	char sym = 0;
 	std::fstream act("actions.txt");
 	act >> *sum_income;
