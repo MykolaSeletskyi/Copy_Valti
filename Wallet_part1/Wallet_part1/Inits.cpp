@@ -15,7 +15,7 @@ void writing_categories(sumAndCat *categories,bool income_spend)
 	{
 		fout << categories[i].name << "\n";
 		fout << categories[i].sum;
-		if (categories[i+1].sum == 0)
+		if (categories[i+1].name == "")
 		{
 			fout.close();
 			return;
